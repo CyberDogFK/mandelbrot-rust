@@ -28,7 +28,7 @@ fn main() {
 
     let mut pixels = vec![0; bounds.0 * bounds.1];
 
-    let threads = 8;
+    let threads = 4;
     let rows_per_band = bounds.1 / threads + 1;
     {
         let bands: Vec<&mut [u8]> =
