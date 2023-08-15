@@ -1,5 +1,6 @@
 extern crate num;
 extern crate crossbeam;
+extern crate num_cpus;
 use num::Complex;
 use std::str::FromStr;
 use image::ColorType;
@@ -14,7 +15,7 @@ fn main() {
     if args.len() != 5 {
         writeln!(std::io::stderr(), "Usage: mandelbrot FILE PIXELS UPPERLEFT LOWERRIGHT")
             .unwrap();
-        writeln!(std::io::stderr(), "Example: {} mandel.png 1000x750 -1.20,0.35 -1,0.20", args[0])
+        writeln!(std::io::stderr(), "Example: {} mandel1.png 1000x750 -1.20,0.35 -1,0.20", args[0])
             .unwrap();
         std::process::exit(1);
     }
@@ -28,7 +29,7 @@ fn main() {
 
     let mut pixels = vec![0; bounds.0 * bounds.1];
 
-    let threads = 4;
+    let threads = num_cpus::get();
     let rows_per_band = bounds.1 / threads + 1;
     {
         let bands: Vec<&mut [u8]> =
